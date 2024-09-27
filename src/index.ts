@@ -1,1 +1,1 @@
-export { default as ReactVideoPlay } from './ReactVideoPlay';
+export { default } from './ReactVideoPlay';
