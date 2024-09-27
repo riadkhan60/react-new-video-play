@@ -11,9 +11,6 @@ import MinimizeIcon from './Icons/Minimize';
 import MaximizeIcon from './Icons/Maximize';
 import PlayButton from './components/PlayButton';
 
-
-
-
 interface customIconsProps {
   middleButton?: JSX.Element;
   playButton?: JSX.Element;
@@ -45,10 +42,26 @@ interface CustomVideoPlayerProps {
   customeIcons?: customIconsProps;
   controllerContainerClass?: string;
   buttonRadius?: string;
-  onPlay?: any;
-  setValue?: any;
+  slideOptions?: SlideOptions;
 }
 
+interface thumbOptions {
+  thumbsize?: string;
+  thumbcolor?: string;
+  thumbradius?: string;
+  thumbborder?: string;
+  thumbboxshadow?: string;
+  hoverthumbborder?: string;
+  hoverthumbcolor?: string;
+}
+
+interface SlideOptions {
+  thumbOptions?: thumbOptions;
+  voluemStep?: number;
+  progressStep?: number;
+  volumeSlideWidth?: string;
+  arialabel?: string;
+}
 
 export default function ReactVideoPlay({
   thumbnailsrc,
@@ -71,7 +84,21 @@ export default function ReactVideoPlay({
   cover = 'contain',
   customeIcons,
   buttonRadius = '',
-  setValue,
+  slideOptions = {
+    thumbOptions: {
+      thumbsize: '12px',
+      thumbcolor: '',
+      thumbradius: '',
+      thumbborder: '',
+      thumbboxshadow: '',
+      hoverthumbborder: '',
+      hoverthumbcolor: '',
+    },
+    voluemStep: 1,
+    volumeSlideWidth: '100px',
+    progressStep: 0.1,
+    arialabel: '',
+  },
 }: CustomVideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -82,7 +109,6 @@ export default function ReactVideoPlay({
   const [showControls, setShowControls] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-
 
   useEffect(() => {
     const video = videoRef.current;
@@ -365,19 +391,24 @@ export default function ReactVideoPlay({
                 )}
               </Button>
               <CustomSlider
-                defaultvalue={[50]} // Changed to lowercase
-                value={[isMuted ? 0 : volume * 100]} // Kept as is
-                minvalue={0} // Changed to lowercase
-                maxvalue={100} // Changed to lowercase
-                step={1} // Kept as is
-                width="100px" // Kept as is
-                height="7px" // Kept as is
-                trackcolor="rgba(255, 255, 255, 0.2)" // Changed to lowercase
-                rangecolor={color} // Changed to lowercase
-                thumbcolor={color} // Changed to lowercase
-                thumbsize={thumbsize} // Changed to lowercase
-                trackheight={trackheight} // Changed to lowercase
-                onvaluechangefunc={handleVolumeChange} // Changed to lowercase
+                defaultvalue={[50]}
+                value={[isMuted ? 0 : volume * 100]}
+                minvalue={0}
+                maxvalue={100}
+                step={slideOptions?.progressStep || 1}
+                width={slideOptions?.volumeSlideWidth}
+                height="7px"
+                trackcolor="rgba(255, 255, 255, 0.2)"
+                rangecolor={color}
+                thumbcolor={slideOptions?.thumbOptions?.thumbcolor || color}
+                hoverthumbborder={slideOptions?.thumbOptions?.hoverthumbborder}
+                hoverthumbcolor={slideOptions?.thumbOptions?.hoverthumbcolor}
+                thumbsize={thumbsize || slideOptions?.thumbOptions?.thumbsize}
+                thumbradius={slideOptions?.thumbOptions?.thumbradius}
+                thumbborder={slideOptions?.thumbOptions?.thumbborder}
+                thumbboxshadow={slideOptions?.thumbOptions?.thumbboxshadow}
+                trackheight={trackheight}
+                onvaluechangefunc={handleVolumeChange}
               />
               <Button
                 style={{ marginLeft: 'auto' }}
@@ -416,19 +447,27 @@ export default function ReactVideoPlay({
             </div>
 
             <CustomSlider
-              value={[progress]} // Kept as is
-              defaultvalue={[0]} // Changed to lowercase
-              minvalue={0} // Changed to lowercase
-              maxvalue={100} // Changed to lowercase
-              step={0.1} // Kept as is
-              width="100%" // Kept as is
-              height="7px" // Kept as is
-              trackcolor="rgba(255, 255, 255, 0.2)" // Changed to lowercase
-              rangecolor={hoverbackgroundcolor} // Changed to lowercase
-              thumbcolor={hoverbackgroundcolor} // Changed to lowercase
-              thumbsize={thumbsize} // Changed to lowercase
-              trackheight={trackheight} // Changed to lowercase
-              onvaluechangefunc={handleProgressChange} // Changed to lowercase
+              value={[progress]}
+              defaultvalue={[0]}
+              minvalue={0}
+              maxvalue={100}
+              step={slideOptions?.progressStep || 0.1}
+              width="100%"
+              height="7px"
+              trackcolor="rgba(255, 255, 255, 0.2)"
+              rangecolor={hoverbackgroundcolor}
+              thumbcolor={
+                slideOptions?.thumbOptions?.thumbcolor || hoverbackgroundcolor
+              }
+              arialabel={slideOptions?.arialabel}
+              hoverthumbborder={slideOptions?.thumbOptions?.hoverthumbborder}
+              hoverthumbcolor={slideOptions?.thumbOptions?.hoverthumbcolor}
+              thumbsize={thumbsize || slideOptions?.thumbOptions?.thumbsize}
+              thumbradius={slideOptions?.thumbOptions?.thumbradius}
+              thumbborder={slideOptions?.thumbOptions?.thumbborder}
+              thumbboxshadow={slideOptions?.thumbOptions?.thumbboxshadow}
+              trackheight={trackheight}
+              onvaluechangefunc={handleProgressChange}
             />
           </div>
         )}
@@ -436,5 +475,3 @@ export default function ReactVideoPlay({
     </div>
   );
 }
-
-

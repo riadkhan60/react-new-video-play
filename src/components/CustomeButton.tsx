@@ -26,10 +26,10 @@ interface StyledButtonProps {
   $variant: ButtonVariant;
   size: ButtonSize;
   color?: string;
-  $backgroundcolor?: string; // Transient prop
-  $hoverbackgroundcolor?: string; // Transient prop
+  $backgroundcolor?: string; 
+  $hoverbackgroundcolor?: string; 
   $hovercolor?: string;
-  $buttonradius?: string; // Transient prop
+  $buttonradius?: string; 
 }
 
 const StyledButton = styled.button<StyledButtonProps>`

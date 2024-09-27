@@ -1,4 +1,4 @@
-# React Video Player
+# React New Video Play
 
 A customizable and feature-rich video player component for React applications.
 
@@ -11,19 +11,21 @@ A customizable and feature-rich video player component for React applications.
 - Customizable UI elements
 - Thumbnail support
 - Responsive design
+- Custom icons support
+- Adjustable slider options
 
 ## Installation
 
 Install the package using npm:
 
 ```bash
-npm install react-video-player-component
+npm i react-new-video-play
 ```
 
 Or using yarn:
 
 ```bash
-yarn add react-video-player-component
+yarn add react-new-video-play
 ```
 
 ## Usage
@@ -31,7 +33,7 @@ yarn add react-video-player-component
 Import the component in your React application:
 
 ```jsx
-import ReactVideoPlay from 'react-video-player-component';
+import ReactVideoPlay from 'react-new-video-play';
 
 function App() {
   return (
@@ -58,8 +60,9 @@ function App() {
 | className | string | '' | Custom class for the main container |
 | aspectRatio | string | '' | Aspect ratio of the video container |
 | cover | 'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down' | 'contain' | Object-fit property for the video |
-| customeIcons | object | - | Custom icons for player controls (see detailed section below) |
+| customeIcons | object | - | Custom icons for player controls |
 | buttonRadius | string | '' | Border radius for control buttons |
+| slideOptions | object | - | Options for customizing sliders |
 
 ### CSS Class Props
 
@@ -73,13 +76,13 @@ function App() {
 | iconClassName | Class for individual icons |
 | controllerContainerClass | Class for the controls container |
 
-## Customization
 
-You can customize the appearance and behavior of the video player by passing props to the `ReactVideoPlay` component. Use the provided CSS class props to apply your own styles, or pass custom icons through the `customeIcons` prop.
+
+## Customization
 
 ### Custom Icons
 
-The `customeIcons` prop allows you to replace the default icons with your own custom icons. This prop accepts an object with the following properties:
+The `customeIcons` prop allows you to replace the default icons with your own custom icons:
 
 ```typescript
 interface customIconsProps {
@@ -93,39 +96,86 @@ interface customIconsProps {
 }
 ```
 
-Each property corresponds to a specific icon in the video player:
+### Slider Options
 
-- `middleButton`: The large play button displayed in the center of the video when it's not playing
-- `playButton`: The play button in the control bar
-- `volumeButton`: The volume icon when the video is not muted
-- `muteButton`: The mute icon when the video is muted
-- `pauseButton`: The pause button in the control bar
-- `minimizeButton`: The button to exit fullscreen mode
-- `maximizeButton`: The button to enter fullscreen mode
+The `slideOptions` prop allows you to customize the behavior and appearance of the sliders:
 
-To use custom icons, you can pass your own React elements to these properties. For example:
+```typescript
+interface SlideOptions {
+  thumbOptions?: {
+    thumbsize?: string;
+    thumbcolor?: string;
+    thumbradius?: string;
+    thumbborder?: string;
+    thumbboxshadow?: string;
+    hoverthumbborder?: string;
+    hoverthumbcolor?: string;
+  };
+  voluemStep?: number;
+  progressStep?: number;
+  volumeSlideWidth?: string;
+  arialabel?: string;
+}
+```
+
+## Example with Custom Options
 
 ```jsx
-import { FaPlay, FaPause, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
+import ReactVideoPlay from 'react-new-video-play';
+import { FaPlay, FaPause, FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
 
 function App() {
   const customIcons = {
     playButton: <FaPlay />,
     pauseButton: <FaPause />,
-    muteButton: <FaVolumeMute />,
     volumeButton: <FaVolumeUp />,
+    muteButton: <FaVolumeMute />,
+  };
+
+  const slideOptions = {
+    thumbOptions: {
+      thumbsize: '16px',
+      thumbcolor: '#ff0000',
+    },
+    volumeSlideWidth: '120px',
+    progressStep: 0.5,
   };
 
   return (
     <ReactVideoPlay
       videosrc="/path/to/your/video.mp4"
+      thumbnailsrc="/path/to/your/thumbnail.jpg"
       customeIcons={customIcons}
+      slideOptions={slideOptions}
+      color="#ff0000"
+      hoverbackgroundcolor="#ffcccc"
     />
   );
 }
 ```
+### ⚠️ Disclaimer
 
-This allows you to use icons from popular icon libraries or your own custom SVG icons, giving you full control over the look and feel of the video player controls.
+**Modifying the Main Container**:  
+
+Adding a `className` to the main container element will override all default styles. Please ensure you fully understand the code before making any changes, as this can significantly affect the appearance and layout.
+
+#### Default Styles for Main Container:
+The following styles are applied by default to the main container. If you add a `className`, these styles will be removed:
+
+```css
+max-width: 56rem;
+height: auto;
+margin-left: auto;
+margin-right: auto;
+background-color: #000000;
+border-radius: 0.5rem;
+overflow: hidden;
+box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+position: relative;
+```
+Ensure to reapply or adjust these styles as needed if you intend to modify the container with custom `className` values.
+
+
 
 ## License
 
@@ -138,3 +188,9 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## Support
 
 If you encounter any issues or have questions, please file an issue on the GitHub repository.
+
+## 🔗 Links
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://qbexel.com/)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/md-samiul-alam-khan-a2441b239/)
+
+

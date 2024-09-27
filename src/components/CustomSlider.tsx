@@ -44,9 +44,9 @@ const SliderRoot = styled(Slider.Root)<{ width?: string; height?: string }>`
 
 // Styled component for SliderTrack
 const SliderTrack = styled(Slider.Track)<{
-  $trackcolor?: string; // Transient prop
-  $trackheight?: string; // Transient prop
-  $hovertrackcolor?: string; // Transient prop
+  $trackcolor?: string; 
+  $trackheight?: string; 
+  $hovertrackcolor?: string; 
 }>`
   background-color: ${(props) => props.$trackcolor || '#ccc'};
   position: relative;
@@ -74,13 +74,13 @@ const SliderRange = styled(Slider.Range)<{ $rangecolor?: string }>`
 
 // Styled component for SliderThumb with transient props
 const SliderThumb = styled(Slider.Thumb)<{
-  $thumbsize?: string; // Transient prop
-  $thumbcolor?: string; // Transient prop
-  $thumbborder?: string; // Transient prop
-  $thumbradius?: string; // Transient prop
-  $thumbboxshadow?: string; // Transient prop
-  $hoverthumbcolor?: string; // Transient prop
-  $hoverthumbborder?: string; // Transient prop
+  $thumbsize?: string; 
+  $thumbcolor?: string; 
+  $thumbborder?: string; 
+  $thumbradius?: string; 
+  $thumbboxshadow?: string; 
+  $hoverthumbcolor?: string; 
+  $hoverthumbborder?: string; 
 }>`
   display: block;
   width: ${(props) => props.$thumbsize || '16px'};
@@ -139,20 +139,20 @@ const CustomSlider: React.FC<CustomSliderProps> = ({
         onValueChange={onvaluechangefunc}
       >
         <SliderTrack
-          $trackcolor={trackcolor} // Using transient props
-          $trackheight={trackheight} // Using transient props
-          $hovertrackcolor={hovertrackcolor} // Using transient props
+          $trackcolor={trackcolor} 
+          $trackheight={trackheight} 
+          $hovertrackcolor={hovertrackcolor} 
         >
           <SliderRange $rangecolor={rangecolor} /> 
         </SliderTrack>
         <SliderThumb
-          $thumbsize={thumbsize} // Using transient props
-          $thumbcolor={thumbcolor} // Using transient props
-          $thumbborder={thumbborder} // Using transient props
-          $thumbradius={thumbradius} // Using transient props
-          $thumbboxshadow={thumbboxshadow} // Using transient props
-          $hoverthumbcolor={hoverthumbcolor} // Using transient props
-          $hoverthumbborder={hoverthumbborder} // Using transient props
+          $thumbsize={thumbsize} 
+          $thumbcolor={thumbcolor} 
+          $thumbborder={thumbborder} 
+          $thumbradius={thumbradius} 
+          $thumbboxshadow={thumbboxshadow} 
+          $hoverthumbcolor={hoverthumbcolor} 
+          $hoverthumbborder={hoverthumbborder} 
           aria-label={arialabel}
         />
       </SliderRoot>
