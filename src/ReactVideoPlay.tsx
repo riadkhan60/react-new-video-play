@@ -172,16 +172,43 @@ export default function ReactVideoPlay({
       }
     }
   };
+ const toggleFullscreen = () => {
+   const container = containerRef.current;
 
-  const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      containerRef.current?.requestFullscreen();
-      setIsFullscreen(true);
-    } else {
-      document.exitFullscreen();
-      setIsFullscreen(false);
-    }
-  };
+   // Check if fullscreen is already active
+   if (!document.fullscreenElement && container) {
+     container
+       .requestFullscreen()
+       .then(() => {
+         // After entering fullscreen, lock orientation to landscape (if supported)
+         if (window.screen.orientation && window.screen.orientation.lock) {
+           window.screen.orientation.lock('landscape').catch((err: Error) => {
+             console.warn('Failed to lock orientation to landscape:', err);
+           });
+         }
+         // Set the state to fullscreen
+         setIsFullscreen(true);
+       })
+       .catch((err: Error) => {
+         console.error('Error attempting to enable fullscreen:', err);
+       });
+   } else {
+     // Exit fullscreen
+     document
+       .exitFullscreen()
+       .then(() => {
+         // Unlock orientation if needed (return to default orientation)
+         if (window.screen.orientation && window.screen.orientation.unlock) {
+           window.screen.orientation.unlock();
+         }
+         // Set the state to non-fullscreen
+         setIsFullscreen(false);
+       })
+       .catch((err: Error) => {
+         console.error('Error attempting to exit fullscreen:', err);
+       });
+   }
+ };
 
   const handleMouseEnter = () => setShowControls(true);
   const handleMouseLeave = () => {
