@@ -43,6 +43,7 @@ interface CustomVideoPlayerProps {
   controllerContainerClass?: string;
   buttonRadius?: string;
   slideOptions?: SlideOptions;
+  autoPlay?: boolean;
 }
 
 interface thumbOptions {
@@ -99,13 +100,14 @@ export default function ReactVideoPlay({
     progressStep: 0.1,
     arialabel: '',
   },
+  autoPlay = false,
 }: CustomVideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(autoPlay || false);
   const [progress, setProgress] = useState(0);
-  const [volume, setVolume] = useState(1);
-  const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(autoPlay ? 0 : 1);
+  const [isMuted, setIsMuted] = useState(autoPlay ? true : false);
   const [showControls, setShowControls] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -120,6 +122,7 @@ export default function ReactVideoPlay({
     };
 
     const handleLoadedData = () => {
+      console.log('loadeddata');
       setIsLoaded(true);
     };
 
@@ -152,6 +155,9 @@ export default function ReactVideoPlay({
   };
 
   const handleVolumeChange = (newValue: number[]) => {
+    if (isMuted) {
+      toggleMute();
+    }
     if (videoRef.current) {
       const newVolume = newValue[0] / 100;
       videoRef.current.volume = newVolume;
@@ -268,7 +274,7 @@ export default function ReactVideoPlay({
                     width: '100%',
                     height: '100%',
                     transition: 'opacity 0.3s ease',
-                    opacity: isPlaying || isLoaded ? 0 : 1,
+                    opacity: isPlaying ? 0 : 1,
                     position: 'absolute',
                     top: 0,
                     left: 0,
@@ -282,13 +288,20 @@ export default function ReactVideoPlay({
         <video
           ref={videoRef}
           className={videoClass}
+          autoPlay={autoPlay}
+          muted={autoPlay}
           playsInline
-          webkit-playsinline
+          webkit-playsinline="true"
           controlsList="nodownload nofullscreen noremoteplayback"
           style={
             videoClass
               ? {}
-              : { objectFit: cover, width: '100%', height: '100%' }
+              : {
+                  objectFit: cover,
+                  width: '100%',
+                  height: '100%',
+                  background: isLoaded ? 'black' : 'black',
+                }
           }
           src={videosrc}
           onClick={togglePlay}

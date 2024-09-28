@@ -63,6 +63,7 @@ function App() {
 | customeIcons | object | - | Custom icons for player controls |
 | buttonRadius | string | '' | Border radius for control buttons |
 | slideOptions | object | - | Options for customizing sliders |
+| autoPlay | boolean | false |  For autoplay |
 
 ### CSS Class Props
 
